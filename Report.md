@@ -1,6 +1,6 @@
-# Project Title
+# New
 
-Simple overview of use/purpose.
+This a simple java program to select and read news.
 
 ## Description
 
