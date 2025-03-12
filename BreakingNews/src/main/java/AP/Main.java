@@ -1,26 +1,32 @@
 package AP;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        String apiKey = "63843d2d2c194eb2bafc9efeaa5dd15d";
-        Infrastructure infrastructure = new Infrastructure(apiKey);
+        String API_KEY = "63843d2d2c194eb2bafc9efeaa5dd15d"; // Replace with your API Key
+        Infrastructure infra = new Infrastructure(API_KEY);
 
-        System.out.println("Welcome to the News App!");
-        infrastructure.displayNewsList();
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n----- NEWS APPLICATION -----");
+            System.out.println("1. Show news list");
+            System.out.println("2. Exit");
+            System.out.print("Enter your choice: ");
 
-        System.out.println("Do you want to save this article to favorites? (yes/no)");
-        String saveChoice = new java.util.Scanner(System.in).nextLine();
-        if (saveChoice.equalsIgnoreCase("yes")) {
-            int choice = new java.util.Scanner(System.in).nextInt();
-            if (choice > 0 && choice <= infrastructure.getNewsList().size()) {
-                infrastructure.saveFavorite(infrastructure.getNewsList().get(choice - 1));
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1:
+                    infra.displayNewsList();
+                    break;
+                case 2:
+                    System.out.println("Exiting application...");
+                    return;
+                default:
+                    System.out.println("Invalid choice! Try again.");
             }
-        }
-
-        System.out.println("Do you want to view your favorite articles? (yes/no)");
-        String viewChoice = new java.util.Scanner(System.in).nextLine();
-        if (viewChoice.equalsIgnoreCase("yes")) {
-            infrastructure.displayFavorites();
         }
     }
 }

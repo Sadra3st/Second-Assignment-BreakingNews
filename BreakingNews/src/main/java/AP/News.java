@@ -12,30 +12,22 @@ public class News {
         this.title = title;
         this.description = description;
         this.sourceName = sourceName;
-        this.author = author;
+        this.author = (author == null || author.isEmpty()) ? "Unknown" : author;
         this.url = url;
         this.publishedAt = publishedAt;
     }
 
     public void displayNews() {
-        System.out.println("Title: " + title);
-        System.out.println("Description: " + description);
+        System.out.println("\nTitle: " + title);
         System.out.println("Source: " + sourceName);
         System.out.println("Author: " + author);
-        System.out.println("URL: " + url);
         System.out.println("Published At: " + publishedAt);
+        System.out.println("Description: " + description);
+        System.out.println("Read more: " + url);
+        System.out.println("---------------------------------------------------");
     }
 
     public String getTitle() {
         return title;
-    }
-    public String getPublishedAt() {
-        return convertToSolarHijri(publishedAt);
-    }
-
-    private String convertToSolarHijri(String gregorianDate) {
-        LocalDate date = LocalDate.parse(gregorianDate.substring(0, 10));
-        HijrahDate hijrahDate = HijrahDate.from(date);
-        return hijrahDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
 }
