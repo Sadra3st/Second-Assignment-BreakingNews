@@ -11,6 +11,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="BreakingNews.main" />
     <orderEntry type="library" name="Gradle: org.json:json:20210307" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.icu:icu4j:72.1" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter:5.9.1" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-params:5.9.1" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.9.1" level="project" />

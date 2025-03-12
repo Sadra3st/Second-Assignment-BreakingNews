@@ -2,7 +2,6 @@ package AP;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -10,8 +9,12 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.*;
+import java.util.List;
+import java.time.LocalDate;
 
 public class Infrastructure {
+
     private final String URL;
     private final String APIKEY;
     private final String JSONRESULT;
@@ -19,10 +22,12 @@ public class Infrastructure {
 
     public Infrastructure(String APIKEY) {
         this.APIKEY = APIKEY;
-        this.URL = "https://newsapi.org/v2/everything?q=tesla&from=2025-02-05&sortBy=publishedAt&apiKey=";
-        this.newsList = new ArrayList<>();
+        this.URL = "https://newsapi.org/v2/everything?q=tesla&from=" + LocalDate.now().minusDays(1) + "&sortBy=publishedAt&apiKey=";
         this.JSONRESULT = getInformation();
-        parseInformation();
+        System.out.println("API Response: " + JSONRESULT);
+        if (JSONRESULT != null) {
+            parseInformation(); // 🚀 Parse articles immediately after getting data
+        }
     }
 
     public ArrayList<News> getNewsList() {
@@ -50,47 +55,75 @@ public class Infrastructure {
     }
 
     private void parseInformation() {
-        if (JSONRESULT == null || JSONRESULT.isEmpty()) {
-            System.out.println("No data received from API.");
+        if (JSONRESULT == null) {
+            System.out.println("Error: No JSON data received.");
             return;
         }
 
-        JSONObject jsonObject = new JSONObject(JSONRESULT);
-        JSONArray articles = jsonObject.getJSONArray("articles");
+        newsList = new ArrayList<>();
 
-        for (int i = 0; i < Math.min(20, articles.length()); i++) {
-            JSONObject article = articles.getJSONObject(i);
-            String title = article.optString("title", "No Title");
-            String description = article.optString("description", "No Description");
-            String sourceName = article.getJSONObject("source").optString("name", "Unknown Source");
-            String author = article.optString("author", "Unknown");
-            String url = article.optString("url", "No URL");
-            String publishedAt = article.optString("publishedAt", "Unknown Date");
+        try {
+            JSONObject jsonObject = new JSONObject(JSONRESULT);
+            JSONArray articles = jsonObject.getJSONArray("articles");
 
-            News news = new News(title, description, sourceName, author, url, publishedAt);
-            newsList.add(news);
+            for (int i = 0; i < Math.min(articles.length(), 20); i++) {
+                JSONObject article = articles.getJSONObject(i);
+
+                String title = article.optString("title", "No Title");
+                String description = article.optString("description", "No Description");
+                String sourceName = article.getJSONObject("source").optString("name", "Unknown Source");
+                String author = article.optString("author", "Unknown");
+                String url = article.optString("url", "#");
+                String publishedAt = article.optString("publishedAt", "Unknown Date");
+
+                News news = new News(title, description, sourceName, author, url, publishedAt);
+                newsList.add(news);
+            }
+
+            System.out.println("Successfully parsed " + newsList.size() + " articles.");
+
+        } catch (Exception e) {
+            System.out.println("JSON Parsing Error: " + e.getMessage());
         }
     }
-
     public void displayNewsList() {
-        if (newsList.isEmpty()) {
+        if (newsList == null || newsList.isEmpty()) {
             System.out.println("No news articles available.");
             return;
         }
 
-        System.out.println("\nAvailable News Articles:");
+        System.out.println("\n📢 Available News Articles:");
         for (int i = 0; i < newsList.size(); i++) {
             System.out.println((i + 1) + ". " + newsList.get(i).getTitle());
         }
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("\nEnter the number of the article to read more (0 to exit): ");
-        int choice = scanner.nextInt();
+        System.out.println("\nEnter the number of the article you want to read (or 0 to exit): ");
+    }
 
-        if (choice > 0 && choice <= newsList.size()) {
-            newsList.get(choice - 1).displayNews();
-        } else {
-            System.out.println("Invalid choice. Exiting...");
+    public void saveFavoriteArticle(News news) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("favorites.txt", true))) {
+            writer.write(news.getFormattedNews() + "\n");
+            System.out.println("Article saved successfully!");
+        } catch (IOException e) {
+            System.out.println("Error saving article: " + e.getMessage());
+        }
+    }
+
+    public void loadFavoriteArticles() {
+        File file = new File("favorites.txt");
+        if (!file.exists()) {
+            System.out.println("No favorite articles found.");
+            return;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            System.out.println("\nFavorite Articles:");
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading favorites: " + e.getMessage());
         }
     }
 }

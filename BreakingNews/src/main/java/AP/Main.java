@@ -4,14 +4,15 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        String API_KEY = "63843d2d2c194eb2bafc9efeaa5dd15d"; // Replace with your API Key
+        String API_KEY = "63843d2d2c194eb2bafc9efeaa5dd15d";
         Infrastructure infra = new Infrastructure(API_KEY);
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("\n----- NEWS APPLICATION -----");
             System.out.println("1. Show news list");
-            System.out.println("2. Exit");
+            System.out.println("2. View favorite articles");
+            System.out.println("3. Exit");
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
@@ -22,6 +23,9 @@ public class Main {
                     infra.displayNewsList();
                     break;
                 case 2:
+                    infra.loadFavoriteArticles();
+                    break;
+                case 3:
                     System.out.println("Exiting application...");
                     return;
                 default:

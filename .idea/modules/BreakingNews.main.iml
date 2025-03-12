@@ -10,5 +10,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.json:json:20210307" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.icu:icu4j:72.1" level="project" />
   </component>
 </module>
