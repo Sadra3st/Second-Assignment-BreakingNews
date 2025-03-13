@@ -96,8 +96,6 @@ public class Infrastructure {
         for (int i = 0; i < newsList.size(); i++) {
             System.out.println((i + 1) + ". " + newsList.get(i).getTitle());
         }
-
-        System.out.println("\nEnter the number of the article you want to read (or 0 to exit): ");
     }
 
     public void saveFavoriteArticle(News news) {
