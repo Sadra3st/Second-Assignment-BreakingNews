@@ -84,11 +84,11 @@ public class News implements Serializable {
 
     public void displayNews() {
         System.out.println("\nTitle: " + title);
-        System.out.println("Source: " + sourceName);
-        System.out.println("Author: " + author);
-        System.out.println("Published At (Hijri): " + publishedAt);
-        System.out.println("Description: " + description);
-        System.out.println("Read more: " + url);
+        System.out.println("✅Source: " + sourceName);
+        System.out.println("🧑Author: " + author);
+        System.out.println("📅Published At (Hijri): " + publishedAt);
+        System.out.println("📝Description: " + description);
+        System.out.println("👀Read more: " + url);
         System.out.println("---------------------------------------------------");
     }
 }
