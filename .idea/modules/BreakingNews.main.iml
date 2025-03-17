@@ -7,7 +7,9 @@
       <sourceFolder url="file://$MODULE_DIR$/../../BreakingNews/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../BreakingNews/src/main/resources" type="java-resource" />
     </content>
-    <orderEntry type="jdk" jdkName="23" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: org.json:json:20210307" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.icu:icu4j:72.1" level="project" />
   </component>
 </module>
